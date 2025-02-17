@@ -3,6 +3,7 @@ const mysql = require("mysql");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const { error } = require("console");
 app.use(cors())
 app.use(bodyParser.json());
 
@@ -33,6 +34,15 @@ app.get("/v6",(req, res) => {
     const sql = "SELECT * FROM `versenyzok` WHERE ID = 6;";
     db.query(sql, (err, result) => {
         if(err) return res.json(err);
+        return res.json(result)
+    })
+})
+
+app.post("/vuj",(req, res) => {
+    const sql = "INSERT INTO `versenyzok` (`ID`, `versenyzo`) VALUES ('13','Majzik Bence')" ;
+    const values = [req.body.ID, req.body.versenyzo];
+    db.query(sql, (err, result) => {
+        if(err) return res.status(500).json({error: "Hibas adatbazis muvelet"});
         return res.json(result)
     })
 })
